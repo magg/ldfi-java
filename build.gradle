@@ -1,0 +1,77 @@
+buildscript {
+    repositories {
+        mavenCentral()
+        jcenter()
+    }
+    
+    dependencies {
+        classpath 'com.github.jengelman.gradle.plugins:shadow:1.2.3'
+    }
+}
+
+apply plugin: 'java'
+apply plugin: 'eclipse'
+apply plugin: 'idea'
+apply plugin: 'application'
+apply plugin: 'com.github.johnrengelman.shadow'
+
+mainClassName = 'com.miggonza.ldfi.cnf.HelloWorldApp'
+version = '0.0.2-SNAPSHOT'
+
+jar {
+  manifest {
+        attributes 'Implementation-Title': 'Host Validator', 'Implementation-Version': version
+    }
+}
+
+
+shadowJar {
+	mergeServiceFiles()	
+    baseName = project.name
+    manifest {
+        attributes 'Main-Class': 'com.miggonza.ldfi.cnf.HelloWorldApp'
+    }
+  
+  
+}
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+    maven { url "https://repo.spring.io/libs-snapshot" }
+    
+    jcenter()
+
+}
+
+
+dependencies {
+    
+
+        compile group: 'org.slf4j', name: 'slf4j-api', version: '1.7.25'
+        compile group: 'com.google.guava', name: 'guava', version: '22.0'
+        compile group: 'org.ow2.sat4j', name: 'org.ow2.sat4j.core', version: '2.3.5'
+        
+        
+        testCompile "junit:junit:4.11"  // Or whatever version
+        testCompile group: 'org.slf4j', name: 'slf4j-log4j12', version: '1.7.25'
+  
+  
+}
+
+test {
+  testLogging.showStandardStreams = true
+}
+
+eclipse {
+    classpath {
+         containers.remove('org.eclipse.jdt.launching.JRE_CONTAINER')
+         containers 'org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8'
+    }
+}
+
+task wrapper(type: Wrapper) {
+    gradleVersion = '2.14.1'
+}
