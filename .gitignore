@@ -46,6 +46,7 @@ hs_err_pid*
 .classpath
 .project
 .settings/
+bin/
 
 
 # Ignore Gradle GUI config
